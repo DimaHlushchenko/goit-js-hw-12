@@ -1,0 +1,14 @@
+import{a as $,S as v,i as h}from"./assets/vendor-b0d10f48.js";(function(){const o=document.createElement("link").relList;if(o&&o.supports&&o.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))t(r);new MutationObserver(r=>{for(const s of r)if(s.type==="childList")for(const u of s.addedNodes)u.tagName==="LINK"&&u.rel==="modulepreload"&&t(u)}).observe(document,{childList:!0,subtree:!0});function n(r){const s={};return r.integrity&&(s.integrity=r.integrity),r.referrerPolicy&&(s.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?s.credentials="include":r.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function t(r){if(r.ep)return;r.ep=!0;const s=n(r);fetch(r.href,s)}})();const E="44033175-ed9824b2e45f2d60c01451c92",P=15;async function g(e,o=1){const n=`https://pixabay.com/api/?key=${E}&q=${e}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${P}&page=${o}`;try{const t=await $.get(n);return{images:t.data.hits,totalHits:t.data.totalHits}}catch(t){throw console.error("Error fetching images:",t),t}}let B=new v("#gallery a",{});function m(e,o){if(e.length===0)return;const n=e.map(t=>`
+      <li>
+        <a href="${t.largeImageURL}">
+          <img src="${t.webformatURL}" alt="${t.tags}">
+        </a>
+        <div class="info">
+          <p><span>Likes:</span> ${t.likes}</p>
+          <p><span>Views:</span> ${t.views}</p>
+          <p><span>Comments:</span> ${t.comments}</p>
+          <p><span>Downloads:</span> ${t.downloads}</p>
+        </div>
+      </li>
+    `).join("");o.insertAdjacentHTML("beforeend",n),B.refresh()}function w(e){e.style.display="block"}function c(e){e.style.display="none"}function p(e){h.error({message:e})}function L(e){h.warning({message:e})}function I(e){e.style.display="block"}function b(e){e.style.display="none"}const H=document.getElementById("search-form"),M=document.getElementById("search-input"),l=document.getElementById("gallery"),a=document.getElementById("loader"),d=document.getElementById("load-more");let i=1,f="",y=0,O=15;H.addEventListener("submit",async e=>{e.preventDefault();const o=M.value.trim();if(o===""){p("Please enter a search query!");return}f=o,i=1,l.innerHTML="",b(d),w(a);try{const{images:n,totalHits:t}=await g(f,i);if(y=t,c(a),n.length===0){L("Sorry, there are no images matching your search query. Please try again!");return}m(n,l),n.length<y&&I(d)}catch(n){c(a),p("Something went wrong. Please try again later."),console.error(n)}});d.addEventListener("click",async()=>{i+=1,w(a);try{const{images:e}=await g(f,i);c(a),m(e,l);const{height:o}=l.firstElementChild.getBoundingClientRect();window.scrollBy({top:o*2,behavior:"smooth"}),i*O>=y&&(b(d),L("We're sorry, but you've reached the end of search results."))}catch(e){c(a),p("Something went wrong. Please try again later."),console.error(e)}});
+//# sourceMappingURL=commonHelpers.js.map
